@@ -1,6 +1,10 @@
 package resource
 
-import rabbitmqv1beta1 "github.com/pivotal/rabbitmq-for-kubernetes/api/v1beta1"
+import (
+	"strings"
+
+	rabbitmqv1beta1 "github.com/pivotal/rabbitmq-for-kubernetes/api/v1beta1"
+)
 
 var requiredPlugins = []string{
 	"rabbitmq_peer_discovery_k8s", // required for clustering
@@ -37,4 +41,8 @@ func (r *RabbitMQPlugins) DesiredPlugins() []string {
 		}
 	}
 	return enabledPlugins
+}
+
+func (r *RabbitMQPlugins) AsString(sep string) string {
+	return strings.Join(r.DesiredPlugins(), sep)
 }

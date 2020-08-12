@@ -107,7 +107,7 @@ func (builder *ServerConfigMapBuilder) Build() (runtime.Object, error) {
 			Namespace: builder.Instance.Namespace,
 		},
 		Data: map[string]string{
-			"enabled_plugins": "[" + strings.Join(plugins.DesiredPlugins(), ",") + "].",
+			"enabled_plugins": "[" + plugins.AsString(",") + "].",
 		},
 	}, nil
 }

@@ -17,7 +17,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"reflect"
-	"strings"
 	"time"
 
 	"k8s.io/client-go/kubernetes"
@@ -360,8 +359,7 @@ func (r *RabbitmqClusterReconciler) enablePlugins(rmq *rabbitmqv1beta1.RabbitmqC
 	plugins := resource.NewRabbitMQPlugins(rmq.Spec.Rabbitmq.AdditionalPlugins)
 	for i := int32(0); i < *rmq.Spec.Replicas; i++ {
 		podName := fmt.Sprintf("%s-%d", rmq.ChildResourceName("server"), i)
-		rabbitCommand := fmt.Sprintf("rabbitmq-plugins set %s",
-			strings.Join(plugins.DesiredPlugins(), " "))
+		rabbitCommand := fmt.Sprintf("rabbitmq-plugins set %s", plugins.AsString(" "))
 
 		stdout, stderr, err := r.exec(rmq.Namespace, podName, "rabbitmq", "sh", "-c", rabbitCommand)
 
