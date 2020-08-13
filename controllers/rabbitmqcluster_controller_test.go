@@ -13,8 +13,9 @@ package controllers_test
 import (
 	"context"
 	"fmt"
-	"k8s.io/apimachinery/pkg/util/intstr"
 	"time"
+
+	"k8s.io/apimachinery/pkg/util/intstr"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -1340,6 +1341,18 @@ var _ = Describe("RabbitmqclusterController", func() {
 						},
 					},
 				},
+				corev1.Volume{
+					Name: "plugins-conf",
+					VolumeSource: corev1.VolumeSource{
+						ConfigMap: &corev1.ConfigMapVolumeSource{
+							DefaultMode: &defaultMode,
+							LocalObjectReference: corev1.LocalObjectReference{
+								Name: "rabbitmq-sts-override-rabbitmq-plugins-conf",
+							},
+						},
+					},
+				},
+
 				corev1.Volume{
 					Name: "rabbitmq-etc",
 					VolumeSource: corev1.VolumeSource{

@@ -274,6 +274,16 @@ func (builder *StatefulSetBuilder) podTemplateSpec(annotations, labels map[strin
 			},
 		},
 		{
+			Name: "plugins-conf",
+			VolumeSource: corev1.VolumeSource{
+				ConfigMap: &corev1.ConfigMapVolumeSource{
+					LocalObjectReference: corev1.LocalObjectReference{
+						Name: builder.Instance.ChildResourceName(pluginsConfigMapName),
+					},
+				},
+			},
+		},
+		{
 			Name: "rabbitmq-etc",
 			VolumeSource: corev1.VolumeSource{
 				EmptyDir: &corev1.EmptyDirVolumeSource{},
@@ -453,7 +463,7 @@ func (builder *StatefulSetBuilder) podTemplateSpec(annotations, labels map[strin
 							"cp /tmp/erlang-cookie-secret/.erlang.cookie /var/lib/rabbitmq/.erlang.cookie " +
 							"&& chown 999:999 /var/lib/rabbitmq/.erlang.cookie " +
 							"&& chmod 600 /var/lib/rabbitmq/.erlang.cookie ; " +
-							"cp /tmp/rabbitmq/enabled_plugins /etc/rabbitmq/enabled_plugins " +
+							"cp /tmp/rabbitmq-plugins/enabled_plugins /etc/rabbitmq/enabled_plugins " +
 							"&& chown 999:999 /etc/rabbitmq/enabled_plugins",
 					},
 					Resources: corev1.ResourceRequirements{
@@ -470,6 +480,10 @@ func (builder *StatefulSetBuilder) podTemplateSpec(annotations, labels map[strin
 						{
 							Name:      "server-conf",
 							MountPath: "/tmp/rabbitmq/",
+						},
+						{
+							Name:      "plugins-conf",
+							MountPath: "/tmp/rabbitmq-plugins/",
 						},
 						{
 							Name:      "rabbitmq-etc",
