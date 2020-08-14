@@ -5,7 +5,7 @@ import (
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	. "github.com/pivotal/rabbitmq-for-kubernetes/internal/metadata"
+	. "github.com/rabbitmq/cluster-operator/internal/metadata"
 )
 
 var _ = Describe("Annotation", func() {
