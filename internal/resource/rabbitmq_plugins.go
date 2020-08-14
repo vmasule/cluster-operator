@@ -1,7 +1,6 @@
 package resource
 
 import (
-	"fmt"
 	"strings"
 
 	rabbitmqv1beta1 "github.com/rabbitmq/cluster-operator/api/v1beta1"
@@ -65,7 +64,6 @@ func (builder *RabbitmqResourceBuilder) RabbitmqPluginsConfigMapBuilder() *Rabbi
 }
 
 func (builder *RabbitmqPluginsConfigMapBuilder) Update(object runtime.Object) error {
-	fmt.Println("In update")
 	configMap := object.(*corev1.ConfigMap)
 	configMap.Labels = metadata.GetLabels(builder.Instance.Name, builder.Instance.Labels)
 	configMap.Annotations = metadata.ReconcileAndFilterAnnotations(configMap.GetAnnotations(), builder.Instance.Annotations)
