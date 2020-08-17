@@ -52,6 +52,10 @@ func (builder *RabbitmqResourceBuilder) ServerConfigMap() *ServerConfigMapBuilde
 	}
 }
 
+func (builder *ServerConfigMapBuilder) RequiresClusterRestart() bool {
+	return true
+}
+
 func (builder *ServerConfigMapBuilder) Update(object runtime.Object) error {
 	configMap := object.(*corev1.ConfigMap)
 	configMap.Labels = metadata.GetLabels(builder.Instance.Name, builder.Instance.Labels)

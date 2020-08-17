@@ -63,6 +63,10 @@ func (builder *RabbitmqResourceBuilder) RabbitmqPluginsConfigMapBuilder() *Rabbi
 	}
 }
 
+func (builder *RabbitmqPluginsConfigMapBuilder) RequiresClusterRestart() bool {
+	return false
+}
+
 func (builder *RabbitmqPluginsConfigMapBuilder) Update(object runtime.Object) error {
 	configMap := object.(*corev1.ConfigMap)
 	configMap.Labels = metadata.GetLabels(builder.Instance.Name, builder.Instance.Labels)

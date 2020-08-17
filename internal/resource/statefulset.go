@@ -44,6 +44,10 @@ type StatefulSetBuilder struct {
 	Scheme   *runtime.Scheme
 }
 
+func (builder *StatefulSetBuilder) RequiresClusterRestart() bool {
+	return false
+}
+
 func (builder *StatefulSetBuilder) Build() (runtime.Object, error) {
 	// PVC, ServiceName & Selector: can't be updated without deleting the statefulset
 	pvc, err := persistentVolumeClaim(builder.Instance, builder.Scheme)
